@@ -15,6 +15,9 @@ public class Categoria {
 	private String nombre;
 	
 	
+	public Categoria() {
+		//constructor vacio necesario para el metodo merge
+	}
 	public Categoria(String nombre) {
 		this.nombre = nombre;
 	}

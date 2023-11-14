@@ -14,20 +14,29 @@ public class RegistroDeProducto {
 
 	public static void main(String[] args) {
 		Categoria celulares = new Categoria("CELULARES");
-		Producto celular = new Producto("Samsung", "telefono usado",new BigDecimal("1000"),celulares);
+		//Producto celular = new Producto("Samsung", "telefono usado",new BigDecimal("1000"),celulares);
 		
 		EntityManager em = JPAUtils.getEntityManager();
 		
-		ProductoDAO productoDao= new ProductoDAO(em);
-		CategoriaDAO categoriaDao = new CategoriaDAO(em);
+		//ProductoDAO productoDao= new ProductoDAO(em);
+		//CategoriaDAO categoriaDao = new CategoriaDAO(em);
 		
 		em.getTransaction().begin();
 		
-		categoriaDao.guardar(celulares);
-		productoDao.guardar(celular);
+		//categoriaDao.guardar(celulares);
+		//productoDao.guardar(celular);
 		
-		em.getTransaction().commit();
-		em.close();
+		 em.persist(celulares);	 //para generar una persistencia
+		 celulares.setNombre("LIBROS");
+		 em.flush();
+		 em.clear();
+		//em.getTransaction().commit();
+		//em.close();
+		 celulares=em.merge(celulares); //con el merge JPA necesita realizar un select dentro de la base de datos para poder realizar modificaciones
+		 celulares.setNombre("SOFTWARES");
+		 em.flush();
+		 em.remove(celulares);
+		 em.flush();
 	}
 
 }

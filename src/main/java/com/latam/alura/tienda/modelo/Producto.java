@@ -24,6 +24,10 @@ public class Producto {
 	@ManyToOne
 	private Categoria categoria;
 	
+	
+	public Producto() {
+		//contructor necesario para el metodo merge
+	}
 	public Producto(String nombre, String descripcion, BigDecimal precio, Categoria categoria) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
