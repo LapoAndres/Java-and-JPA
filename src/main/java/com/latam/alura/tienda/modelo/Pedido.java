@@ -2,6 +2,7 @@ package com.latam.alura.tienda.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -13,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pedidoss")
+@Table(name="pedidos")
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,14 +25,19 @@ public class Pedido {
 	@ManyToOne
 	private Cliente cliente;
 	
-	@OneToMany
-	private List<ItemsPedido> items;
+	@OneToMany(mappedBy="pedido")
+	private List<ItemsPedido> items= new ArrayList<>();
 	
 	public Pedido(Cliente cliente) {
 		this.cliente = cliente;
 	}
 	public Pedido() {
 		//constructor vacio necesario para el metodo merge
+	}
+	
+	public void agregarItems(ItemsPedido item) {
+		item.setPedido(this);
+		this.items.add(item);
 	}
 	
 	public Long getId() {

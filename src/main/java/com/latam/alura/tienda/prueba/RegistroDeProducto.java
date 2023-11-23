@@ -41,8 +41,6 @@ public class RegistroDeProducto {
 		productoDao.guardar(celular);
 		
 		em.getTransaction().commit();
-		
-		
 		em.close();
 	}
 		
