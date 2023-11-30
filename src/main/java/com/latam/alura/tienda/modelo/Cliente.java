@@ -22,7 +22,6 @@ public class Cliente {
 	
 	
 	public Cliente(String nombre, String dni) {
-		super();
 		this.nombre = nombre;
 		this.dni = dni;
 	}
