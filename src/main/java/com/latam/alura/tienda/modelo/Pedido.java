@@ -47,5 +47,17 @@ public class Pedido {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public LocalDate getFecha() {
+		return fecha;
+	}
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+	public List<ItemsPedido> getItems() {
+		return items;
+	}
+	public void setItems(List<ItemsPedido> items) {
+		this.items = items;
+	}
 	
 }

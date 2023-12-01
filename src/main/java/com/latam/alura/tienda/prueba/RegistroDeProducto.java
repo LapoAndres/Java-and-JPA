@@ -1,6 +1,7 @@
 package com.latam.alura.tienda.prueba;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -31,16 +32,21 @@ public class RegistroDeProducto {
 		Pedido pedido = new Pedido(cliente);
 		pedido.agregarItems(new ItemsPedido(5,producto2,pedido));
 		
-		em.getTransaction().begin();
-		clienteDao.guardar(cliente);
+		try {
+			em.getTransaction().begin();
+			em.persist(cliente);
+			clienteDao.guardar(cliente);
+			pedidoDao.guardar(pedido);
+			em.getTransaction().commit();
+			System.out.println("Cliente ingresado exitosamente con ID: " + cliente.getId());
+			System.out.println("El pedido del cliente: "+cliente.getNombre()+" se ingreso correctamente con ID: "+pedido.getId());
+		} catch (Exception e) {
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+			e.printStackTrace();
+		} 
 		
-		em.getTransaction().commit();
-		
-		em.getTransaction().begin();
-		pedidoDao.guardar(pedido);
-		em.getTransaction().commit();
-		
-		List<Cliente> clienteL=clienteDao.consultaPorNombre("Andres");
 		
 		
 		System.out.println(producto.getNombre());
@@ -49,11 +55,24 @@ public class RegistroDeProducto {
 		BigDecimal precio2 = productoDao.consultaPrecioNombreProducto("Xiaomi");
 	    System.out.println(precio);
 	    System.out.println(precio2);
-		
-		BigDecimal valorTotal=pedidoDao.valorTotalVendido();
-		System.out.println("Valor total= "+valorTotal);
-		System.out.println(clienteL);
-		
+	    //Impresion de los pedidos
+	    List<Pedido> pedidos = pedidoDao.consultarTodos();
+	    
+	    for (Pedido Pedido:pedidos) {
+			System.out.println("ID: "+ pedido.getId());
+			System.out.println("Fecha: "+ pedido.getFecha());
+			
+			List<ItemsPedido> items = pedido.getItems();
+			for (ItemsPedido item : items) {
+				System.out.println("Producto: "+producto.getNombre());
+				System.out.println("Cantidad: "+item.getCantidad());
+				System.out.println("precio Unitario: "+item.getPrecioUnitario());
+				System.out.println("Valor total: "+item.getValorTotal());
+				System.out.println("---------------------------------------------");
+			}
+			System.out.println("=====================================");
+		}
+	    
 	}
 
 	private static void registrarProducto() {

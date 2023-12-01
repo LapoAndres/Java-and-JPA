@@ -19,6 +19,8 @@ public class ItemsPedido {
 	
 	private int cantidad;
 	private BigDecimal precioUnitario;
+	private BigDecimal valorTotal;
+	private BigDecimal aux;
 	
 	@ManyToOne
 	private Producto producto;
@@ -34,7 +36,9 @@ public class ItemsPedido {
 		this.cantidad = cantidad;
 		this.producto = producto;
 		this.pedido = pedido;
-		this.precioUnitario=producto.getPrecio();
+		aux=producto.getPrecio();
+		this.precioUnitario=aux;
+		this.valorTotal=aux.multiply(BigDecimal.valueOf(cantidad));
 	}
 
 	public Long getId() {
@@ -71,6 +75,10 @@ public class ItemsPedido {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	public BigDecimal getValorTotal() {
+		return valorTotal;
 	}
 
 }
