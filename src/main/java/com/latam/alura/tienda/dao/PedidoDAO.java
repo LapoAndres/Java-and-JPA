@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import com.latam.alura.tienda.modelo.Pedido;
+import com.latam.alura.tienda.vo.RelatorioDeVenta;
 
 public class PedidoDAO {
 	
@@ -39,7 +40,7 @@ public class PedidoDAO {
 	}
 	
 	public List<Pedido> consultaPorNombreDeCliente(String nombre){
-		String jpql="SELECT p FROM Clinete AS p WHERE p.cliente.nombre=:nombre";
+		String jpql="SELECT p FROM Pedido AS p WHERE p.pedido.nombre=:nombre";
 		return em.createQuery(jpql,Pedido.class).setParameter("nombre", nombre).getResultList();
 	}
 	 
@@ -52,4 +53,29 @@ public class PedidoDAO {
 		String jpql = "SELECT SUM(p.valorTotal) FROM Pedido p";
 		return em.createQuery(jpql,BigDecimal.class).getSingleResult();
 	}
+	
+	public List<RelatorioDeVenta> relatorioDeVentasVO(){
+		String jpql="SELECT  new com.latam.alura.tienda.vo.RelatorioDeVenta (producto.nombre, "
+				+ "SUM(item.cantidad), "
+				+ "MAX(pedido.fecha)) "
+				+ "FROM Pedido pedido "
+				+ "JOIN pedido.items item "
+				+ "JOIN item.producto producto "
+				+ "GROUP BY producto.nombre "
+				+ "ORDER BY SUM(item.cantidad) DESC";
+		return em.createQuery(jpql,RelatorioDeVenta.class).getResultList();
+	}
+	
+	//metodo para consulta pero con demasiado tipado
+	/*public List<Object[]> relatorioDeVentas(){
+		String jpql="SELECT producto.nombre, "
+				+ "SUM(item.cantidad), "
+				+ "MAX(pedido.fecha) "
+				+ "FROM Pedido pedido "
+				+ "JOIN pedido.items item "
+				+ "JOIN item.producto producto "
+				+ "GROUP BY producto.nombre "
+				+ "ORDER BY SUM(item.cantidad) DESC";
+		return em.createQuery(jpql,Object[].class).getResultList();
+	}*/
 }

@@ -1,5 +1,7 @@
 package com.latam.alura.tienda.modelo;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,7 @@ public class Cliente {
 	private Long id;
 	private String nombre;
 	private String dni;
+	
 	
 	
 	public Cliente() {

@@ -39,25 +39,34 @@ public class Pedido {
 	public void agregarItems(ItemsPedido item) {
 		item.setPedido(this);
 		this.items.add(item);
+		calcularValorTotal();
+	}
+	
+	public void calcularValorTotal() {
+		this.valorTotal = this.items.stream().map(ItemsPedido::getValorTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 	
 	public Long getId() {
 		return id;
 	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public LocalDate getFecha() {
 		return fecha;
 	}
+	
 	public BigDecimal getValorTotal() {
 		return valorTotal;
 	}
+	
 	public List<ItemsPedido> getItems() {
 		return items;
 	}
+	
 	public void setItems(List<ItemsPedido> items) {
 		this.items = items;
 	}
-	
 }
