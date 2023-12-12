@@ -3,6 +3,7 @@ package com.latam.alura.tienda.prueba;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -59,7 +60,6 @@ public class LoadRecords {
 			Categoria categoria=categoriaDAO.consultaPorNombre(line[3]);
 			Producto producto = new Producto(line[4],line[0],new BigDecimal(line[1]),categoria);
 			productoDAO.guardar(producto);
-			em.flush();
 		}
 	}
  }
@@ -71,7 +71,6 @@ public class LoadRecords {
 		if (line.length==1) {
 			Categoria categoria=new Categoria(categoriasTxt.get(i));
 			categoriaDAO.guardar(categoria);
-			em.flush();
 		}
 	}
  }
@@ -88,9 +87,15 @@ public class LoadRecords {
 			}
 		}
 	}
-	
+
 	private static List<String> readFile(String type) throws FileNotFoundException {
-		File file = new File("C:\\Users\\Public\\Alura\\jpa\\"+type+".txt");
+		URL resource= LoadRecords.class.getClassLoader().getResource("META-INF/"+type+".txt");
+		
+		if (resource == null) {
+			throw new FileNotFoundException("Archivo no encontrado");
+		}
+		
+		File file = new File(resource.getFile());
 		Scanner scan = new Scanner(file);
 		List<String> pedido= new ArrayList<>();
 		while(scan.hasNextLine()){
