@@ -39,9 +39,9 @@ public class PedidoDAO {
 		return em.createQuery(jqpl,Pedido.class).getResultList();
 	}
 	
-	public List<Pedido> consultaPorNombreDeCliente(String nombre){
-		String jpql="SELECT p FROM Pedido AS p WHERE p.pedido.nombre=:nombre";
-		return em.createQuery(jpql,Pedido.class).setParameter("nombre", nombre).getResultList();
+	public List<Pedido> consultaPorNombreDeCliente(Long id){
+		String jpql="SELECT p FROM Pedido p JOIN FETCH p.cliente WHERE p.id=:id=:nombre";
+		return em.createQuery(jpql,Pedido.class).setParameter("id", id).getResultList();
 	}
 	 
 	public BigDecimal consultarPrecioPorNombreDeCliente(String nombre) {

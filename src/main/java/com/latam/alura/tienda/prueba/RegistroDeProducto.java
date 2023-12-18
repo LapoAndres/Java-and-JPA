@@ -95,7 +95,7 @@ public class RegistroDeProducto {
 		List<RelatorioDeVenta> relatorio = pedidoDao.relatorioDeVentasVO();
 		
 		relatorio.forEach(System.out::println);
-	    
+	     
 	}
 
 	private static void registrarProducto() {

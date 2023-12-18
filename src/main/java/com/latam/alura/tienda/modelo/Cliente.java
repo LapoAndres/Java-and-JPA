@@ -1,7 +1,6 @@
 package com.latam.alura.tienda.modelo;
 
-import java.util.List;
-
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,9 +13,9 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private String nombre;
-	private String dni;
 	
+	@Embedded
+	private DatosPesonales datosPersonales; 
 	
 	
 	public Cliente() {
@@ -25,8 +24,7 @@ public class Cliente {
 	
 	
 	public Cliente(String nombre, String dni) {
-		this.nombre = nombre;
-		this.dni = dni;
+		this.datosPersonales = new DatosPesonales(nombre,dni);
 	}
 
 
@@ -35,22 +33,22 @@ public class Cliente {
 	}
 
 	public String getNombre() {
-		return nombre;
+		return datosPersonales.getNombre();
 	}
 
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.datosPersonales.setNombre(nombre);
 	}
 
 
 	public String getDni() {
-		return dni;
+		return datosPersonales.getDni();
 	}
 
 
 	public void setDni(String dni) {
-		this.dni = dni;
+		this.datosPersonales.setDni(dni);
 	}
 
 }
